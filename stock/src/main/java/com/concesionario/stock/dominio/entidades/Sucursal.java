@@ -2,6 +2,8 @@ package com.concesionario.stock.dominio.entidades;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(name = "localidad_unique_constraint", columnNames = {"localidad_id"})})
 public class Sucursal {
@@ -16,6 +18,12 @@ public class Sucursal {
     private String nombre;
 
     private String direccion;
+
+    private Date fechaApertura;
+
+    private int tiempoEntregaLocal;
+
+    private int tiempoEntregaCentroDistribucion;
 
     public Localidad getLocalidad() {
         return localidad;
