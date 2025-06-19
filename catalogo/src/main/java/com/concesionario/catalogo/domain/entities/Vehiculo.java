@@ -13,6 +13,8 @@ public class Vehiculo {
 
     private String modelo;
 
+    private Float subtotal;
+
     private Integer aniosGarantia;
 
     public void setId(Long id) {
@@ -45,5 +47,13 @@ public class Vehiculo {
 
     public void setAniosGarantia(Integer aniosGarantia) {
         this.aniosGarantia = aniosGarantia;
+    }
+
+    public Float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Float subtotal) {
+        this.subtotal = subtotal;
     }
 }

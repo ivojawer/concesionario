@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
@@ -20,6 +21,23 @@ public class Venta {
 
     private float total;
 
+    private Long vehiculoId;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    @CreatedDate
+    private Date fechaCreacion;
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public Vendedor getVendedor() {
         return vendedor;
     }
@@ -34,5 +52,37 @@ public class Venta {
 
     public Long getId() {
         return id;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public Date getFechaEntregaEstimada() {
+        return fechaEntregaEstimada;
+    }
+
+    public void setFechaEntregaEstimada(Date fechaEntregaEstimada) {
+        this.fechaEntregaEstimada = fechaEntregaEstimada;
+    }
+
+    public Long getVehiculoId() {
+        return vehiculoId;
+    }
+
+    public void setVehiculoId(Long vehiculoId) {
+        this.vehiculoId = vehiculoId;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 }

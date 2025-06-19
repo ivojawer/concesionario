@@ -9,7 +9,7 @@ import java.util.Date;
 public class Sucursal {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "localidad_id")
@@ -21,9 +21,9 @@ public class Sucursal {
 
     private Date fechaApertura;
 
-    private int tiempoEntregaLocal;
+    private Integer tiempoEntregaLocal;
 
-    private int tiempoEntregaCentroDistribucion;
+    private Integer tiempoEntregaCentroDistribucion;
 
     public Localidad getLocalidad() {
         return localidad;
@@ -33,11 +33,11 @@ public class Sucursal {
         this.localidad = localidad;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,5 +55,29 @@ public class Sucursal {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public Integer getTiempoEntregaLocal() {
+        return tiempoEntregaLocal;
+    }
+
+    public void setTiempoEntregaLocal(Integer tiempoEntregaLocal) {
+        this.tiempoEntregaLocal = tiempoEntregaLocal;
+    }
+
+    public Integer getTiempoEntregaCentroDistribucion() {
+        return tiempoEntregaCentroDistribucion;
+    }
+
+    public void setTiempoEntregaCentroDistribucion(Integer tiempoEntregaCentroDistribucion) {
+        this.tiempoEntregaCentroDistribucion = tiempoEntregaCentroDistribucion;
+    }
+
+    public Date getFechaApertura() {
+        return fechaApertura;
+    }
+
+    public void setFechaApertura(Date fechaApertura) {
+        this.fechaApertura = fechaApertura;
     }
 }

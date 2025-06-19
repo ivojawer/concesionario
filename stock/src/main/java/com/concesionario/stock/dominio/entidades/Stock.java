@@ -6,27 +6,29 @@ import jakarta.persistence.*;
 public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
-    private int vehiculoId;
+    private Long vehiculoId;
 
     @ManyToOne()
     private Sucursal sucursal;
 
-    public int getId() {
+    private Integer cantidad;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getVehiculoId() {
+    public Long getVehiculoId() {
         return vehiculoId;
     }
 
-    public void setVehiculoId(int vehiculoId) {
+    public void setVehiculoId(Long vehiculoId) {
         this.vehiculoId = vehiculoId;
     }
 
@@ -36,5 +38,17 @@ public class Stock {
 
     public void setSucursal(Sucursal sucursal) {
         this.sucursal = sucursal;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public void ajustarCantidad(Integer cantidad) {
+        this.cantidad += cantidad;
     }
 }

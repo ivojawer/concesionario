@@ -4,6 +4,7 @@ public class AltaVehiculoDTO {
     private Long marcaId;
     private String modelo;
     private Integer aniosGarantia;
+    private Float subtotal;
 
     public Long getMarcaId() {
         return marcaId;
@@ -27,5 +28,13 @@ public class AltaVehiculoDTO {
 
     public void setAniosGarantia(Integer aniosGarantia) {
         this.aniosGarantia = aniosGarantia;
+    }
+
+    public Float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Float subtotal) {
+        this.subtotal = subtotal;
     }
 }
