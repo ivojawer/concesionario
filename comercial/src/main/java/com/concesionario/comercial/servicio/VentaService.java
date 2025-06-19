@@ -1,18 +1,14 @@
 package com.concesionario.comercial.servicio;
 
-import com.concesionario.comercial.data.CatalogoRepository;
-import com.concesionario.comercial.data.ClienteRepository;
-import com.concesionario.comercial.data.StockRepository;
-import com.concesionario.comercial.data.VendedorRepository;
+import com.concesionario.comercial.data.*;
 import com.concesionario.comercial.domain.dto.AltaVentaDTO;
+import com.concesionario.comercial.domain.dto.VentaDTO;
 import com.concesionario.comercial.domain.entities.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VentaService implements IVentaService {
@@ -21,12 +17,14 @@ public class VentaService implements IVentaService {
     private final StockRepository stockRepository;
     private final ClienteRepository clienteRepository;
     private final CatalogoRepository catalogoRepository;
+    private final VentaRepository ventaRepository;
 
-    public VentaService(VendedorRepository vendedorRepository, StockRepository stockRepository, ClienteRepository clienteRepository, CatalogoRepository catalogoRepository) {
+    public VentaService(VendedorRepository vendedorRepository, StockRepository stockRepository, ClienteRepository clienteRepository, CatalogoRepository catalogoRepository, VentaRepository ventaRepository) {
         this.vendedorRepository = vendedorRepository;
         this.stockRepository = stockRepository;
         this.clienteRepository = clienteRepository;
         this.catalogoRepository = catalogoRepository;
+        this.ventaRepository = ventaRepository;
     }
 
     @Override
@@ -61,10 +59,11 @@ public class VentaService implements IVentaService {
 
         Venta venta = new Venta();
         venta.setVehiculoId(ventaDTO.getVehiculoId());
-        Cliente cliente = clienteRepository.findById(ventaDTO.getClienteId()).orElse(null);
+        Cliente cliente = clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow();
         venta.setCliente(cliente);
         Vendedor vendedor = vendedorRepository.findById(ventaDTO.getVendedorId()).orElseThrow();
         venta.setVendedor(vendedor);
+        venta.setFechaCreacion(new Date());
 
 
 
@@ -78,5 +77,12 @@ public class VentaService implements IVentaService {
         cal.add(Calendar.DATE, diasEntrega);
 
         venta.setFechaEntregaEstimada(cal.getTime());
+
+        ventaRepository.save(venta);
+    }
+
+    @Override
+    public Collection<VentaDTO> findAll() {
+        return ventaRepository.findAll().stream().map(VentaDTO::new).collect(Collectors.toList());
     }
 }

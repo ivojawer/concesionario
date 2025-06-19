@@ -25,8 +25,7 @@ class VehiculoController {
 
     @GetMapping("{id}")
     public ResponseEntity<VehiculoDTO> findById(@PathVariable Long id) {
-        VehiculoDTO vehiculoDTO = vehiculoService.findById(id);
-        return new ResponseEntity<>(vehiculoDTO, HttpStatus.OK);
+        return ResponseEntity.of(vehiculoService.findById(id));
     }
 
     @PostMapping("")

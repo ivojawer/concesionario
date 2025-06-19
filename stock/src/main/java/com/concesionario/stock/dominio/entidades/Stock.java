@@ -16,6 +16,16 @@ public class Stock {
 
     private Integer cantidad;
 
+    public Stock(Long vehiculoId, Sucursal sucursal, Integer cantidad) {
+        this.vehiculoId = vehiculoId;
+        this.sucursal = sucursal;
+        this.cantidad = cantidad;
+    }
+
+    public Stock() {
+
+    }
+
     public Long getId() {
         return id;
     }

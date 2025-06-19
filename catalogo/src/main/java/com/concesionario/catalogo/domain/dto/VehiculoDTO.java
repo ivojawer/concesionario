@@ -7,6 +7,7 @@ public class VehiculoDTO {
     private String marca;
     private String modelo;
     private Integer aniosGarantia;
+    private Float subtotal;
 
     public static VehiculoDTO fromVehiculo(Vehiculo vehiculo) {
         VehiculoDTO dto = new VehiculoDTO();
@@ -14,6 +15,7 @@ public class VehiculoDTO {
         dto.setAniosGarantia(vehiculo.getAniosGarantia());
         dto.setModelo(vehiculo.getModelo());
         dto.setMarca(vehiculo.getMarca().getNombre());
+        dto.setSubtotal(vehiculo.getSubtotal());
         return dto;
     }
 
@@ -47,5 +49,13 @@ public class VehiculoDTO {
 
     public void setAniosGarantia(Integer aniosGarantia) {
         this.aniosGarantia = aniosGarantia;
+    }
+
+    public Float getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Float subtotal) {
+        this.subtotal = subtotal;
     }
 }

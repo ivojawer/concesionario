@@ -10,7 +10,7 @@ public class SucursalDTO {
 
     public SucursalDTO(Sucursal sucursal) {
         this.sucursalId = sucursal.getId();
-        this.diasEntregaCentral = sucursal.getTiempoEntregaLocal();
+        this.diasEntregaLocal = sucursal.getTiempoEntregaLocal();
         this.diasEntregaCentral = sucursal.getTiempoEntregaCentroDistribucion();
     }
 

@@ -1,16 +1,16 @@
 package com.concesionario.comercial.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Venta {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private Date fechaEntregaEstimada;
@@ -27,16 +27,10 @@ public class Venta {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public Cliente getCliente() {
-        return cliente;
-    }
+
 
     @CreatedDate
     private Date fechaCreacion;
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
 
     public Vendedor getVendedor() {
         return vendedor;
@@ -84,5 +78,13 @@ public class Venta {
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

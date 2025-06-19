@@ -9,6 +9,7 @@ import com.concesionario.catalogo.domain.entities.Vehiculo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,18 +26,18 @@ public class VehiculoService implements IVehiculoService {
     @Override
     public void agregarVehiculo(AltaVehiculoDTO vehiculoDTO) {
         Vehiculo vehiculo = new Vehiculo();
-        vehiculo.setAniosGarantia(vehiculoDTO.getAniosGarantia());
         Marca marca = marcaRepository.findById(vehiculoDTO.getMarcaId()).orElseThrow();
         vehiculo.setMarca(marca);
         vehiculo.setModelo(vehiculoDTO.getModelo());
+        vehiculo.setSubtotal(vehiculoDTO.getSubtotal());
+        vehiculo.setAniosGarantia(vehiculoDTO.getAniosGarantia());
 
         vehiculoRepository.save(vehiculo);
     }
 
     @Override
-    public VehiculoDTO findById(Long id) {
-        Vehiculo vehiculo = vehiculoRepository.findById(id).orElseThrow();
-        return VehiculoDTO.fromVehiculo(vehiculo);
+    public Optional<VehiculoDTO> findById(Long id) {
+        return vehiculoRepository.findById(id).map(VehiculoDTO::fromVehiculo);
     }
 
     @Override

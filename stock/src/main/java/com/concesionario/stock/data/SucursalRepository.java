@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface SucursalRepository extends Repository<Sucursal, Long> {
     Optional<Sucursal> findById(Long id);
 
+    Sucursal save(Sucursal sucursal);
 }

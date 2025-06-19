@@ -2,7 +2,6 @@ package com.concesionario.comercial.domain.dto;
 
 public class AltaVentaDTO {
     private Long vehiculoId;
-    private Float total;
     private Long clienteId;
     private Long vendedorId;
     private Long sucursalId;
@@ -21,14 +20,6 @@ public class AltaVentaDTO {
 
     public void setClienteId(Long clienteId) {
         this.clienteId = clienteId;
-    }
-
-    public Float getTotal() {
-        return total;
-    }
-
-    public void setTotal(Float total) {
-        this.total = total;
     }
 
     public Long getVehiculoId() {

@@ -1,6 +1,7 @@
 package com.concesionario.comercial.domain.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 public class ServicioMecanico {
     @Id
+    @GeneratedValue
     private Long id;
 
     private Boolean enGarantia;

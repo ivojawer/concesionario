@@ -25,6 +25,19 @@ public class Sucursal {
 
     private Integer tiempoEntregaCentroDistribucion;
 
+    public Sucursal(Localidad localidad, String nombre, String direccion, Date fechaApertura, Integer tiempoEntregaLocal, Integer tiempoEntregaCentroDistribucion) {
+        this.localidad = localidad;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.fechaApertura = fechaApertura;
+        this.tiempoEntregaLocal = tiempoEntregaLocal;
+        this.tiempoEntregaCentroDistribucion = tiempoEntregaCentroDistribucion;
+    }
+
+    public Sucursal() {
+
+    }
+
     public Localidad getLocalidad() {
         return localidad;
     }

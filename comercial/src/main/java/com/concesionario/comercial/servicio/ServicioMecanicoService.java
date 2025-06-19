@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ServicioMecanicoService implements IServicioMecanicoService {
@@ -57,6 +58,6 @@ public class ServicioMecanicoService implements IServicioMecanicoService {
 
     @Override
     public Collection<ServicioMecanicoDTO> listarTodos() {
-        return List.of();
+        return servicioMecanicoRepository.findAll().stream().map(ServicioMecanicoDTO::new).collect(Collectors.toList());
     }
 }
