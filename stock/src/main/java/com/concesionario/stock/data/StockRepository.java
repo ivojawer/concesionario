@@ -11,6 +11,6 @@ public interface StockRepository extends Repository<Stock, Long> {
     Optional<Stock> findById(Long id);
     Optional<Stock> findByVehiculoIdAndSucursalId(Long vehiculoId, Long sucursal_id);
     void save(Stock stock);
-    Collection<StockDTO> findAll();
-    Collection<StockDTO> findAllByVehiculoId(Long vehiculoId);
+    Collection<Stock> findAll();
+    Collection<Stock> findAllByVehiculoId(Long vehiculoId);
 }

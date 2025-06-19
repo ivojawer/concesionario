@@ -1,14 +1,16 @@
 package com.concesionario.stock.dominio.dto;
 
+import com.concesionario.stock.dominio.entidades.Stock;
+
 public class StockDTO {
     private Long vehiculoId;
     private Integer cantidad;
     private Long sucursalId;
 
-    public StockDTO(StockDTO stock) {
+    public StockDTO(Stock stock) {
         this.vehiculoId = stock.getVehiculoId();
         this.cantidad = stock.getCantidad();
-        this.sucursalId = stock.getSucursalId();
+        this.sucursalId = stock.getSucursal().getId();
     }
 
     public Long getVehiculoId() {
