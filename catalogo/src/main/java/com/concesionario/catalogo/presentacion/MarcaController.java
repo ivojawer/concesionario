@@ -1,7 +1,7 @@
 package com.concesionario.catalogo.presentacion;
 
 import com.concesionario.catalogo.domain.dto.AltaMarcaDTO;
-import com.concesionario.catalogo.servicio.MarcaService;
+import com.concesionario.catalogo.servicio.IMarcaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("marcas")
 public class MarcaController {
-    private final MarcaService marcaService;
+    private final IMarcaService marcaService;
 
-    public MarcaController(MarcaService marcaService) {
+    public MarcaController(IMarcaService marcaService) {
         this.marcaService = marcaService;
     }
 

@@ -1,8 +1,9 @@
-package com.concesionario.comercial.servicio;
+package com.concesionario.comercial.servicio.implementaciones;
 
 import com.concesionario.comercial.data.ClienteRepository;
 import com.concesionario.comercial.domain.dto.AltaClienteDTO;
 import com.concesionario.comercial.domain.entities.Cliente;
+import com.concesionario.comercial.servicio.IClienteService;
 import org.springframework.stereotype.Service;
 
 @Service

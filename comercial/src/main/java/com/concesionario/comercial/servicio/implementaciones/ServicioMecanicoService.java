@@ -1,16 +1,16 @@
-package com.concesionario.comercial.servicio;
+package com.concesionario.comercial.servicio.implementaciones;
 
 import com.concesionario.comercial.data.*;
 import com.concesionario.comercial.domain.dto.AltaServicioMecanicoDTO;
 import com.concesionario.comercial.domain.dto.ServicioMecanicoDTO;
 import com.concesionario.comercial.domain.entities.*;
+import com.concesionario.comercial.servicio.IServicioMecanicoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,14 +18,12 @@ public class ServicioMecanicoService implements IServicioMecanicoService {
     private final ClienteRepository clienteRepository;
     private final ServicioMecanicoRepository servicioMecanicoRepository;
     private final CatalogoRepository catalogoRepository;
-    private final VendedorRepository vendedorRepository;
     private final VentaRepository ventaRepository;
 
-    public ServicioMecanicoService(ClienteRepository clienteRepository, ServicioMecanicoRepository servicioMecanicoRepository, CatalogoRepository catalogoRepository, VendedorRepository vendedorRepository, VentaRepository ventaRepository) {
+    public ServicioMecanicoService(ClienteRepository clienteRepository, ServicioMecanicoRepository servicioMecanicoRepository, CatalogoRepository catalogoRepository, VentaRepository ventaRepository) {
         this.clienteRepository = clienteRepository;
         this.servicioMecanicoRepository = servicioMecanicoRepository;
         this.catalogoRepository = catalogoRepository;
-        this.vendedorRepository = vendedorRepository;
         this.ventaRepository = ventaRepository;
     }
 

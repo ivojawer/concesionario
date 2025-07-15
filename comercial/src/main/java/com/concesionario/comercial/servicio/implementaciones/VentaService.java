@@ -1,9 +1,10 @@
-package com.concesionario.comercial.servicio;
+package com.concesionario.comercial.servicio.implementaciones;
 
 import com.concesionario.comercial.data.*;
 import com.concesionario.comercial.domain.dto.AltaVentaDTO;
 import com.concesionario.comercial.domain.dto.VentaDTO;
 import com.concesionario.comercial.domain.entities.*;
+import com.concesionario.comercial.servicio.IVentaService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.concesionario.catalogo.servicio;
+package com.concesionario.catalogo.servicio.implementaciones;
 
 import com.concesionario.catalogo.data.IMarcaRepository;
 import com.concesionario.catalogo.data.IVehiculoRepository;
@@ -6,6 +6,7 @@ import com.concesionario.catalogo.domain.dto.AltaVehiculoDTO;
 import com.concesionario.catalogo.domain.dto.VehiculoDTO;
 import com.concesionario.catalogo.domain.entities.Marca;
 import com.concesionario.catalogo.domain.entities.Vehiculo;
+import com.concesionario.catalogo.servicio.IVehiculoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

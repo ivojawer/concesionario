@@ -1,8 +1,9 @@
-package com.concesionario.catalogo.servicio;
+package com.concesionario.catalogo.servicio.implementaciones;
 
 import com.concesionario.catalogo.data.IMarcaRepository;
 import com.concesionario.catalogo.domain.dto.AltaMarcaDTO;
 import com.concesionario.catalogo.domain.entities.Marca;
+import com.concesionario.catalogo.servicio.IMarcaService;
 import org.springframework.stereotype.Service;
 
 @Service

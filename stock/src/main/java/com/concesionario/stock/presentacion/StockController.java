@@ -3,7 +3,7 @@ package com.concesionario.stock.presentacion;
 import com.concesionario.stock.dominio.dto.AjusteDTO;
 import com.concesionario.stock.dominio.dto.StockDTO;
 import com.concesionario.stock.dominio.entidades.Stock;
-import com.concesionario.stock.servicio.StockService;
+import com.concesionario.stock.servicio.IStockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("stock")
 public class StockController {
-    private final StockService stockService;
+    private final IStockService stockService;
 
-    public StockController(StockService stockService) {
+    public StockController(IStockService stockService) {
         this.stockService = stockService;
     }
 

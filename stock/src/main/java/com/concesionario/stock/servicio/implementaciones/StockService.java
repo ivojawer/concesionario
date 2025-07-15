@@ -1,17 +1,17 @@
-package com.concesionario.stock.servicio;
+package com.concesionario.stock.servicio.implementaciones;
 
 import com.concesionario.stock.data.StockRepository;
 import com.concesionario.stock.dominio.dto.AjusteDTO;
 import com.concesionario.stock.dominio.dto.StockDTO;
 import com.concesionario.stock.dominio.entidades.Stock;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.concesionario.stock.servicio.IStockService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
-public class StockService {
+public class StockService implements IStockService {
     private final StockRepository stockRepository;
 
     public StockService(StockRepository stockRepository) {
