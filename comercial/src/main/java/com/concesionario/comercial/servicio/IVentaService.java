@@ -11,4 +11,6 @@ public interface IVentaService {
     void vender(AltaVentaDTO ventaDTO) throws VentaException;
 
     Collection<VentaDTO> findAll();
+    
+    VentaDTO findById(Long ventaId) throws VentaException;
 }

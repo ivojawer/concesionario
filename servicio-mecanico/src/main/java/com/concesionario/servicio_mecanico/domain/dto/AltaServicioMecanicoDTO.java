@@ -2,7 +2,6 @@ package com.concesionario.servicio_mecanico.domain.dto;
 
 public class AltaServicioMecanicoDTO {
     private Long clienteId;
-    private String fechaEntrega;
     private Integer kilometros;
     private Long ventaId;
 
@@ -20,14 +19,6 @@ public class AltaServicioMecanicoDTO {
 
     public void setClienteId(Long clienteId) {
         this.clienteId = clienteId;
-    }
-
-    public String getFechaEntrega() {
-        return fechaEntrega;
-    }
-
-    public void setFechaEntrega(String fechaEntrega) {
-        this.fechaEntrega = fechaEntrega;
     }
 
     public Long getVentaId() {

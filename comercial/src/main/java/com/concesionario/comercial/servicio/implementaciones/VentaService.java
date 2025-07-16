@@ -4,7 +4,6 @@ import com.concesionario.comercial.data.*;
 import com.concesionario.comercial.domain.dto.AltaVentaDTO;
 import com.concesionario.comercial.domain.dto.VentaDTO;
 import com.concesionario.comercial.domain.entities.*;
-import com.concesionario.comercial.domain.exceptions.NotFoundException;
 import com.concesionario.comercial.domain.exceptions.RepositoryException;
 import com.concesionario.comercial.domain.exceptions.VentaException;
 import com.concesionario.comercial.servicio.IVentaService;
@@ -99,5 +98,16 @@ public class VentaService implements IVentaService {
     @Override
     public Collection<VentaDTO> findAll() {
         return ventaRepository.findAll().stream().map(VentaDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public VentaDTO findById(Long ventaId) throws VentaException {
+        try {
+            return ventaRepository.findById(ventaId)
+                .map(VentaDTO::new)
+                .orElseThrow(() -> new VentaException("Venta no encontrada con ID: " + ventaId));
+        } catch (Exception e) {
+            throw new VentaException("Error al obtener venta con ID: " + ventaId, e);
+        }
     }
 }

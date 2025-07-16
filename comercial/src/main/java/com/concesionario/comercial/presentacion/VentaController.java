@@ -33,4 +33,14 @@ public class VentaController {
     public ResponseEntity<Collection<VentaDTO>> findAll(){
         return ResponseEntity.ok(ventaService.findAll());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<VentaDTO> findById(@PathVariable("id") Long ventaId) {
+        try {
+            VentaDTO venta = ventaService.findById(ventaId);
+            return ResponseEntity.ok(venta);
+        } catch (VentaException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }
