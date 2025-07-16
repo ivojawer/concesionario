@@ -1,4 +1,4 @@
-package com.concesionario.comercial.domain.entities;
+package com.concesionario.clientes.domain.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

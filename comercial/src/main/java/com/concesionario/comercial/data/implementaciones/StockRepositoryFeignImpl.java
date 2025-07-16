@@ -1,6 +1,7 @@
-package com.concesionario.comercial.data;
+package com.concesionario.comercial.data.implementaciones;
 
 import com.concesionario.comercial.clients.StockClient;
+import com.concesionario.comercial.data.StockRepository;
 import com.concesionario.comercial.domain.dto.AjusteDTO;
 import com.concesionario.comercial.domain.entities.Sucursal;
 import com.concesionario.comercial.domain.entities.Stock;
@@ -23,7 +24,7 @@ public class StockRepositoryFeignImpl implements StockRepository {
         ResponseEntity<Collection<Stock>> response = stockClient.stock(vehiculoId);
         if(response.getStatusCode().isError()){
             // ToDo: err handling
-            throw new ResponseStatusException(response.getStatusCode(), response.getBody().toString());
+            throw new ResponseStatusException(response.getStatusCode(), "Error al obtener stock");
         }
         return response.getBody();
     }
@@ -33,7 +34,7 @@ public class StockRepositoryFeignImpl implements StockRepository {
         ResponseEntity<Sucursal> response = stockClient.sucursal(sucursalId);
         if(response.getStatusCode().isError()){
             // ToDo: err handling
-            throw new ResponseStatusException(response.getStatusCode(), response.getBody().toString());
+            throw new ResponseStatusException(response.getStatusCode(), "Error al obtener sucursal");
         }
 
         return response.getBody();
@@ -44,7 +45,7 @@ public class StockRepositoryFeignImpl implements StockRepository {
         ResponseEntity<Object> response = stockClient.ajuste(new AjusteDTO(sucursalId, vehiculoId, cantidadAjuste));
         if(response.getStatusCode().isError()){
             // ToDo: err handling
-            throw new ResponseStatusException(response.getStatusCode(), response.getBody().toString());
+            throw new ResponseStatusException(response.getStatusCode(), "Error al realizar ajuste");
         }
     }
 }

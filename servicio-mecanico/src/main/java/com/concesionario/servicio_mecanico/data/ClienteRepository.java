@@ -1,6 +1,6 @@
-package com.concesionario.comercial.data;
+package com.concesionario.servicio_mecanico.data;
 
-import com.concesionario.comercial.domain.dto.ClienteDTO;
+import com.concesionario.servicio_mecanico.domain.dto.ClienteDTO;
 
 import java.util.Optional;
 

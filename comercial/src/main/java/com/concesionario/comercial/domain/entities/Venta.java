@@ -23,11 +23,8 @@ public class Venta {
 
     private Long vehiculoId;
 
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
-
-
+    @Column(name = "cliente_id")
+    private Long clienteId;
 
     @CreatedDate
     private Date fechaCreacion;
@@ -80,11 +77,11 @@ public class Venta {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 }

@@ -13,7 +13,7 @@ public class VentaDTO {
         this.vendedorId = venta.getVendedor().getId();
         this.vehiculoId = venta.getVehiculoId();
         this.monto = venta.getTotal();
-        this.clienteId = venta.getCliente().getId();
+        this.clienteId = venta.getClienteId();
     }
 
     public Long getClienteId() {

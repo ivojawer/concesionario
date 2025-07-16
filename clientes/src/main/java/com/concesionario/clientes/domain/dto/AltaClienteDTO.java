@@ -1,4 +1,4 @@
-package com.concesionario.comercial.domain.dto;
+package com.concesionario.clientes.domain.dto;
 
 public class AltaClienteDTO {
     private String nombre;

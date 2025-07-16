@@ -1,7 +1,6 @@
-package com.concesionario.comercial.data;
+package com.concesionario.servicio_mecanico.data;
 
-import com.concesionario.comercial.domain.entities.Cliente;
-import com.concesionario.comercial.domain.entities.ServicioMecanico;
+import com.concesionario.servicio_mecanico.domain.entities.ServicioMecanico;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;
@@ -11,4 +10,5 @@ public interface ServicioMecanicoRepository extends Repository<ServicioMecanico,
     ServicioMecanico save(ServicioMecanico servicioMecanico);
     Optional<ServicioMecanico> findById(Long id);
     List<ServicioMecanico> findAll();
+    List<ServicioMecanico> findByClienteId(Long clienteId);
 }

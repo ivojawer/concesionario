@@ -1,12 +1,10 @@
-package com.concesionario.comercial.domain.entities;
+package com.concesionario.servicio_mecanico.domain.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 public class ServicioMecanico {
@@ -20,8 +18,7 @@ public class ServicioMecanico {
 
     private LocalDate fechaEntrega;
 
-    @ManyToOne
-    private Cliente cliente;
+    private Long clienteId;
 
     private Long vehiculoId;
 
@@ -57,12 +54,12 @@ public class ServicioMecanico {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 
     public Long getVehiculoId() {

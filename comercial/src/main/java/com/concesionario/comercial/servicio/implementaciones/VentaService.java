@@ -60,8 +60,12 @@ public class VentaService implements IVentaService {
 
         Venta venta = new Venta();
         venta.setVehiculoId(ventaDTO.getVehiculoId());
-        Cliente cliente = clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow();
-        venta.setCliente(cliente);
+        
+        // Validate cliente exists using Feign client
+        clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow(() -> 
+            new RuntimeException("Cliente no encontrado con ID: " + ventaDTO.getClienteId()));
+        venta.setClienteId(ventaDTO.getClienteId());
+        
         Vendedor vendedor = vendedorRepository.findById(ventaDTO.getVendedorId()).orElseThrow();
         venta.setVendedor(vendedor);
         venta.setFechaCreacion(new Date());
