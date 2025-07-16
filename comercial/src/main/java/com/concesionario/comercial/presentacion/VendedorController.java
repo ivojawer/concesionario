@@ -1,6 +1,6 @@
 package com.concesionario.comercial.presentacion;
 
-import com.concesionario.comercial.domain.entities.Vendedor;
+import com.concesionario.comercial.domain.dto.AltaVendedorDTO;
 import com.concesionario.comercial.servicio.IVendedorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +18,8 @@ public class VendedorController {
     }
 
     @PostMapping
-    ResponseEntity<Object> crear(@RequestBody Vendedor vendedor){
-        //ToDO DTO
-        vendedorService.create(vendedor);
+    ResponseEntity<Object> crear(@RequestBody AltaVendedorDTO vendedorDTO){
+        vendedorService.create(vendedorDTO);
         return ResponseEntity.ok().build();
     }
 }
