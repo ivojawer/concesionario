@@ -6,12 +6,15 @@ import com.concesionario.servicio_mecanico.domain.dto.AltaServicioMecanicoDTO;
 import com.concesionario.servicio_mecanico.domain.dto.ClienteDTO;
 import com.concesionario.servicio_mecanico.domain.dto.ServicioMecanicoDTO;
 import com.concesionario.servicio_mecanico.domain.entities.ServicioMecanico;
+import com.concesionario.servicio_mecanico.domain.exceptions.RepositoryException;
+import com.concesionario.servicio_mecanico.domain.exceptions.ServiceLayerException;
 import com.concesionario.servicio_mecanico.servicio.IServicioMecanicoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,12 +28,20 @@ public class ServicioMecanicoService implements IServicioMecanicoService {
     }
 
     @Override
-    public void crear(AltaServicioMecanicoDTO servicioMecanicoDTO) {
+    public void crear(AltaServicioMecanicoDTO servicioMecanicoDTO) throws ServiceLayerException {
         ServicioMecanico sm = new ServicioMecanico();
 
-        // Verify cliente exists
-        ClienteDTO cliente = clienteRepository.findById(servicioMecanicoDTO.getClienteId())
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        // verificar existencia cliente
+        try {
+            Optional<ClienteDTO> cliente = clienteRepository.findById(servicioMecanicoDTO.getClienteId());
+            if (cliente.isEmpty()) {
+                throw new ServiceLayerException("El cliente no existe");
+            }
+        } catch (RepositoryException e) {
+            throw new ServiceLayerException("Hubo un problema obteniendo los datos del cliente:" + e.getMessage());
+        }
+
 
         sm.setKilometros(servicioMecanicoDTO.getKilometros());
         sm.setClienteId(servicioMecanicoDTO.getClienteId());

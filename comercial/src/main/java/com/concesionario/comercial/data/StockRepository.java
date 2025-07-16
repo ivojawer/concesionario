@@ -11,6 +11,8 @@ import java.util.Collection;
 @Component
 public interface StockRepository {
     Collection<Stock> findByVehiculoId(Long vehiculoId) throws RepositoryException;
+    
+    Collection<Stock> findByVehiculoIdAndSucursalWithCentral(Long vehiculoId, Long sucursalId) throws RepositoryException;
 
     Sucursal findEntregaBySucursal(Long sucursalId) throws NotFoundException, RepositoryException;
 

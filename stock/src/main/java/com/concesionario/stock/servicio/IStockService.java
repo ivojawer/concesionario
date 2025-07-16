@@ -10,5 +10,6 @@ public interface IStockService {
     Stock getStock(Long id) throws Exception;
     void realizarAjuste(AjusteDTO ajusteDTO);
     Collection<StockDTO> findAllByVehiculo(Long vehiculoId);
+    Collection<StockDTO> findByVehiculoAndSucursalWithCentral(Long vehiculoId, Long sucursalId);
     Collection<StockDTO> findAll();
 }

@@ -36,6 +36,23 @@ public class StockRepositoryFeignImpl implements StockRepository {
     }
 
     @Override
+    public Collection<Stock> findByVehiculoIdAndSucursalWithCentral(Long vehiculoId, Long sucursalId) throws RepositoryException {
+        try {
+            ResponseEntity<Collection<Stock>> response = stockClient.stockBySucursal(vehiculoId, sucursalId);
+            if(response.getStatusCode().isError()){
+                throw new RepositoryException("Error al obtener stock para vehículo ID: " + vehiculoId + 
+                    " y sucursal ID: " + sucursalId + ". Código de estado: " + response.getStatusCode());
+            }
+            return response.getBody();
+        } catch (RepositoryException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RepositoryException("Error de conexión al obtener stock para vehículo ID: " + vehiculoId + 
+                " y sucursal ID: " + sucursalId, e);
+        }
+    }
+
+    @Override
     public Sucursal findEntregaBySucursal(Long sucursalId) throws NotFoundException, RepositoryException {
         try {
             ResponseEntity<Sucursal> response = stockClient.sucursal(sucursalId);

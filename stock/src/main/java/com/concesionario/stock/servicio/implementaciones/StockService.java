@@ -7,11 +7,13 @@ import com.concesionario.stock.dominio.entidades.Stock;
 import com.concesionario.stock.servicio.IStockService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
 public class StockService implements IStockService {
+    private final Long sucursalCentralId = 1L;
     private final StockRepository stockRepository;
 
     public StockService(StockRepository stockRepository) {
@@ -30,6 +32,14 @@ public class StockService implements IStockService {
 
     public Collection<StockDTO> findAllByVehiculo(Long vehiculoId) {
         return stockRepository.findAllByVehiculoId(vehiculoId).stream().map(StockDTO::new).collect(Collectors.toList());
+    }
+
+    public Collection<StockDTO> findByVehiculoAndSucursalWithCentral(Long vehiculoId, Long sucursalId) {
+        Collection<Long> sucursalIds = Arrays.asList(sucursalId, sucursalCentralId);
+        return stockRepository
+                .findByVehiculoIdAndSucursalIdIn(vehiculoId, sucursalIds)
+                .stream()
+                .map(StockDTO::new).collect(Collectors.toList());
     }
 
     public Collection<StockDTO> findAll() {

@@ -21,9 +21,14 @@ public class StockController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<StockDTO>> findAll(@RequestParam("vehiculoId") String vehiculoIdParam){
+    public ResponseEntity<Collection<StockDTO>> findAll(@RequestParam("vehiculoId") String vehiculoIdParam, 
+                                                      @RequestParam(value="sucursalId", required = false) String sucursalIdParam){
         if(vehiculoIdParam != null){
             Long vehiculoId = Long.parseLong(vehiculoIdParam);
+            if(sucursalIdParam != null){
+                Long sucursalId = Long.parseLong(sucursalIdParam);
+                return ResponseEntity.ok(stockService.findByVehiculoAndSucursalWithCentral(vehiculoId, sucursalId));
+            }
             return ResponseEntity.ok(stockService.findAllByVehiculo(vehiculoId));
         }
         return ResponseEntity.ok(stockService.findAll());

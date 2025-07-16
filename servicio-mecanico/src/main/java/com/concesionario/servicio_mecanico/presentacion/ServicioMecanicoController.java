@@ -2,6 +2,7 @@ package com.concesionario.servicio_mecanico.presentacion;
 
 import com.concesionario.servicio_mecanico.domain.dto.AltaServicioMecanicoDTO;
 import com.concesionario.servicio_mecanico.domain.dto.ServicioMecanicoDTO;
+import com.concesionario.servicio_mecanico.domain.exceptions.ServiceLayerException;
 import com.concesionario.servicio_mecanico.servicio.IServicioMecanicoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,11 @@ public class ServicioMecanicoController {
 
     @PostMapping
     ResponseEntity crear(@RequestBody AltaServicioMecanicoDTO servicioMecanicoDTO) {
-        servicioMecanicoService.crear(servicioMecanicoDTO);
+        try {
+            servicioMecanicoService.crear(servicioMecanicoDTO);
+        } catch (ServiceLayerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

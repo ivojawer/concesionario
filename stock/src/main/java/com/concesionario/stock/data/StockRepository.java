@@ -1,6 +1,5 @@
 package com.concesionario.stock.data;
 
-import com.concesionario.stock.dominio.dto.StockDTO;
 import com.concesionario.stock.dominio.entidades.Stock;
 import org.springframework.data.repository.Repository;
 
@@ -13,4 +12,5 @@ public interface StockRepository extends Repository<Stock, Long> {
     void save(Stock stock);
     Collection<Stock> findAll();
     Collection<Stock> findAllByVehiculoId(Long vehiculoId);
+    Collection<Stock> findByVehiculoIdAndSucursalIdIn(Long vehiculoId, Collection<Long> sucursalIds);
 }

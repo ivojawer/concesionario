@@ -35,18 +35,20 @@ public class VentaService implements IVentaService {
     @Transactional
     public void vender(AltaVentaDTO ventaDTO) throws VentaException {
         try {
-            // Esto no es muy performante porque me estoy trayendo todos los stocks
-            // del vehiculo para hacer una operacion que solo necesito el de la sucursal y
-            // el de central, ToDo optimizar
-            Collection<Stock> stocksVehiculo = stockRepository.findByVehiculoId(ventaDTO.getVehiculoId());
+            Collection<Stock> stocksVehiculo = stockRepository.findByVehiculoIdAndSucursalWithCentral(
+                ventaDTO.getVehiculoId(), ventaDTO.getSucursalId()
+            );
 
-            Optional<Stock> stockCentral = stocksVehiculo.stream().filter(unStock -> unStock.getSucursalId().equals(sucursalCentralId)).findFirst();
-            Optional<Stock> stockSucursal = stocksVehiculo.stream().filter(unStock -> unStock.getSucursalId().equals(ventaDTO.getSucursalId())).findFirst();
+            Optional<Stock> stockCentral = stocksVehiculo.stream()
+                .filter(unStock -> unStock.getSucursalId().equals(sucursalCentralId))
+                .findFirst();
+            Optional<Stock> stockSucursal = stocksVehiculo.stream()
+                .filter(unStock -> unStock.getSucursalId().equals(ventaDTO.getSucursalId()))
+                .findFirst();
 
             Long sucursalVentaId;
             Integer diasEntrega;
 
-            // ToDo probablemente quisiera tener la configuracion de entrega por vehiculo/sucursal
             Sucursal sucursal = stockRepository.findEntregaBySucursal(ventaDTO.getSucursalId());
             if(stockSucursal.isPresent() && stockSucursal.get().getCantidad() > 0){
                 sucursalVentaId = ventaDTO.getSucursalId();
@@ -58,7 +60,6 @@ public class VentaService implements IVentaService {
                 throw new VentaException("No hay stock disponible para el vehículo ID: " + ventaDTO.getVehiculoId());
             }
 
-            stockRepository.ajuste(ventaDTO.getVehiculoId(), sucursalVentaId, -1);
 
             Venta venta = new Venta();
             venta.setVehiculoId(ventaDTO.getVehiculoId());
@@ -82,8 +83,10 @@ public class VentaService implements IVentaService {
             venta.setFechaEntregaEstimada(cal.getTime());
 
             ventaRepository.save(venta);
-        } catch (NotFoundException e) {
-            throw new VentaException("Error en la venta: " + e.getMessage(), e);
+
+            // como este es el unico efecto cross-servicio aprovecho y lo dejo al final
+            // asi no tengo que preocuparme por implementar transacciones distribuidas
+            stockRepository.ajuste(ventaDTO.getVehiculoId(), sucursalVentaId, -1);
         } catch (RepositoryException e) {
             throw new VentaException("Error en la venta: " + e.getMessage(), e);
         } catch (VentaException e) {

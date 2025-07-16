@@ -26,8 +26,11 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ClienteDTO> findById(@PathVariable Long id){
+    ResponseEntity findById(@PathVariable Long id){
         Optional<ClienteDTO> cliente = clienteService.findById(id);
+        if(cliente.isEmpty()){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
         return ResponseEntity.of(cliente);
     }
 

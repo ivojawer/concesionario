@@ -14,6 +14,9 @@ public interface StockClient {
     @GetMapping("/stock")
     ResponseEntity<Collection<Stock>> stock(@RequestParam(value="vehiculoId") Long vehiculoId);
 
+    @GetMapping("/stock")
+    ResponseEntity<Collection<Stock>> stockBySucursal(@RequestParam(value="vehiculoId") Long vehiculoId, @RequestParam(value="sucursalId") Long sucursalId);
+
     @GetMapping("/sucursales/{id}")
     ResponseEntity<Sucursal> sucursal(@PathVariable("id") Long sucursalId);
 
