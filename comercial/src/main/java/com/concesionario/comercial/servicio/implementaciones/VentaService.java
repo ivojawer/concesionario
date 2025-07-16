@@ -4,6 +4,9 @@ import com.concesionario.comercial.data.*;
 import com.concesionario.comercial.domain.dto.AltaVentaDTO;
 import com.concesionario.comercial.domain.dto.VentaDTO;
 import com.concesionario.comercial.domain.entities.*;
+import com.concesionario.comercial.domain.exceptions.NotFoundException;
+import com.concesionario.comercial.domain.exceptions.RepositoryException;
+import com.concesionario.comercial.domain.exceptions.VentaException;
 import com.concesionario.comercial.servicio.IVentaService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -30,60 +33,64 @@ public class VentaService implements IVentaService {
 
     @Override
     @Transactional
-    public void vender(AltaVentaDTO ventaDTO) {
+    public void vender(AltaVentaDTO ventaDTO) throws VentaException {
+        try {
+            // Esto no es muy performante porque me estoy trayendo todos los stocks
+            // del vehiculo para hacer una operacion que solo necesito el de la sucursal y
+            // el de central, ToDo optimizar
+            Collection<Stock> stocksVehiculo = stockRepository.findByVehiculoId(ventaDTO.getVehiculoId());
 
-        // Esto no es muy performante porque me estoy trayendo todos los stocks
-        // del vehiculo para hacer una operacion que solo necesito el de la sucursal y
-        // el de central, ToDo optimizar
-        Collection<Stock> stocksVehiculo = stockRepository.findByVehiculoId(ventaDTO.getVehiculoId());
+            Optional<Stock> stockCentral = stocksVehiculo.stream().filter(unStock -> unStock.getSucursalId().equals(sucursalCentralId)).findFirst();
+            Optional<Stock> stockSucursal = stocksVehiculo.stream().filter(unStock -> unStock.getSucursalId().equals(ventaDTO.getSucursalId())).findFirst();
 
-        Optional<Stock> stockCentral = stocksVehiculo.stream().filter(unStock -> unStock.getSucursalId().equals(sucursalCentralId)).findFirst();
-        Optional<Stock> stockSucursal = stocksVehiculo.stream().filter(unStock -> unStock.getSucursalId().equals(ventaDTO.getSucursalId())).findFirst();
+            Long sucursalVentaId;
+            Integer diasEntrega;
 
-        Long sucursalVentaId;
-        Integer diasEntrega;
+            // ToDo probablemente quisiera tener la configuracion de entrega por vehiculo/sucursal
+            Sucursal sucursal = stockRepository.findEntregaBySucursal(ventaDTO.getSucursalId());
+            if(stockSucursal.isPresent() && stockSucursal.get().getCantidad() > 0){
+                sucursalVentaId = ventaDTO.getSucursalId();
+                diasEntrega = sucursal.getDiasEntregaLocal();
+            } else if(stockCentral.isPresent() && stockCentral.get().getCantidad() > 0) {
+                sucursalVentaId = sucursalCentralId;
+                diasEntrega = sucursal.getDiasEntregaCentral();
+            } else {
+                throw new VentaException("No hay stock disponible para el vehículo ID: " + ventaDTO.getVehiculoId());
+            }
 
-        // ToDo probablemente quisiera tener la configuracion de entrega por vehiculo/sucursal
-        Sucursal sucursal = stockRepository.findEntregaBySucursal(ventaDTO.getSucursalId());
-        if(stockSucursal.isPresent() && stockSucursal.get().getCantidad() > 0){
-            sucursalVentaId = ventaDTO.getSucursalId();
-            diasEntrega = sucursal.getDiasEntregaLocal();
-        } else if(stockCentral.isPresent() && stockCentral.get().getCantidad() > 0) {
-            sucursalVentaId = sucursalCentralId;
-            diasEntrega = sucursal.getDiasEntregaCentral();
-        } else {
-            // ToDo err handling
-            throw new RuntimeException("No hay stock");
+            stockRepository.ajuste(ventaDTO.getVehiculoId(), sucursalVentaId, -1);
+
+            Venta venta = new Venta();
+            venta.setVehiculoId(ventaDTO.getVehiculoId());
+
+            clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow(() ->
+                new VentaException("Cliente no encontrado con ID: " + ventaDTO.getClienteId()));
+            venta.setClienteId(ventaDTO.getClienteId());
+            
+            Vendedor vendedor = vendedorRepository.findById(ventaDTO.getVendedorId()).orElseThrow(() ->
+                new VentaException("Vendedor no encontrado con ID: " + ventaDTO.getVendedorId()));
+            venta.setVendedor(vendedor);
+            venta.setFechaCreacion(new Date());
+
+            Vehiculo vehiculo = catalogoRepository.findVehiculoById(ventaDTO.getVehiculoId());
+            venta.setTotal(vehiculo.getSubtotal());
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DATE, diasEntrega);
+
+            venta.setFechaEntregaEstimada(cal.getTime());
+
+            ventaRepository.save(venta);
+        } catch (NotFoundException e) {
+            throw new VentaException("Error en la venta: " + e.getMessage(), e);
+        } catch (RepositoryException e) {
+            throw new VentaException("Error en la venta: " + e.getMessage(), e);
+        } catch (VentaException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new VentaException("Error inesperado durante la venta: " + e.getMessage(), e);
         }
-
-        stockRepository.ajuste(ventaDTO.getVehiculoId(), sucursalVentaId, -1);
-
-        Venta venta = new Venta();
-        venta.setVehiculoId(ventaDTO.getVehiculoId());
-        
-        // Validate cliente exists using Feign client
-        clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow(() -> 
-            new RuntimeException("Cliente no encontrado con ID: " + ventaDTO.getClienteId()));
-        venta.setClienteId(ventaDTO.getClienteId());
-        
-        Vendedor vendedor = vendedorRepository.findById(ventaDTO.getVendedorId()).orElseThrow();
-        venta.setVendedor(vendedor);
-        venta.setFechaCreacion(new Date());
-
-
-
-        Vehiculo vehiculo = catalogoRepository.findVehiculoById(ventaDTO.getVehiculoId());
-        venta.setTotal(vehiculo.getSubtotal());
-
-
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        cal.add(Calendar.DATE, diasEntrega);
-
-        venta.setFechaEntregaEstimada(cal.getTime());
-
-        ventaRepository.save(venta);
     }
 
     @Override
